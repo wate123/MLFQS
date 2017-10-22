@@ -3,5 +3,5 @@ project(MLFQS)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES prioque.c prioque.h test-prioque.c input.txt)
+set(SOURCE_FILES prioque.c prioque.h test-prioque.c input)
 add_executable(MLFQS ${SOURCE_FILES})
