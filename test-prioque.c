@@ -9,7 +9,7 @@
 #include <string.h>
 #include "prioque.h"
 
-typedef struct Process_Data {
+typedef struct  {
     int Num;
     int Pid;  //Process Id
     int A_time; //Process Arrival Time
@@ -21,6 +21,12 @@ typedef struct Process_Data {
     int S_time; //Process start Time
     int Res_time;
 } Process_Data;
+
+typedef struct {
+    int run;
+    int io;
+    int rep;
+}temInput;
 
 Process_Data *printProcess;
 void printPro(Queue *que){
@@ -42,10 +48,15 @@ int main() {
   Process_Data
 
 
-  int temp_time, temp_pid, temp_run, temp_io, temp_rep;
+  int temTime, temPid, temRun, temIo, temRep;
+  int prevPid = 0;
 
-  while (scanf("%d", &temp_time) != EOF){
-    scanf("%d", &temp_pid);
+  while (scanf("%d", &temTime) != EOF){
+    scanf("%d", &temPid);
+    if(prevPid == temPid){
+      scanf("%d %d %d", &temRun, &temIo, &temRep);
+
+    }
 
   }
 }
