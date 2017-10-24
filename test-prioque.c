@@ -20,6 +20,7 @@ typedef struct  {
     int W_time; //Waiting Time
     int S_time; //Process start Time
     int Res_time;
+    Queue tempQ;
 } Process_Data;
 
 typedef struct {
@@ -38,14 +39,17 @@ int main() {
   Queue hq;     //highest priority
   Queue mq;     //medium priority
   Queue lq;     //lowest priority
+  Queue proce;
 
   //initialize queue
   init_queue(&hq, sizeof(Process_Data), TRUE, NULL, TRUE);
   init_queue(&mq, sizeof(Process_Data), TRUE, NULL, TRUE);
   init_queue(&lq, sizeof(Process_Data), TRUE, NULL, TRUE);
+  init_queue(&proce, sizeof(Process_Data), TRUE, NULL, TRUE);
 
   Process_Data temp;
-  Process_Data
+  Process_Data *tempCurr;
+  temInput in;
 
 
   int temTime, temPid, temRun, temIo, temRep;
@@ -54,6 +58,18 @@ int main() {
   while (scanf("%d", &temTime) != EOF){
     scanf("%d", &temPid);
     if(prevPid == temPid){
+      scanf("%d %d %d", &temRun, &temIo, &temRep);
+      in.run = temRun;
+      in.io = temIo;
+      in.rep = temRep;
+      while (end_of_queue(&proce) != TRUE){
+        tempCurr = pointer_to_current(&proce);
+        next_element(&proce);
+        if(tempCurr->Pid == temPid){
+          add_to_queue(&tempCurr->tempQ, &in, 1);
+        }
+      }
+    } else{
       scanf("%d %d %d", &temRun, &temIo, &temRep);
 
     }
