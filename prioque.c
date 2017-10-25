@@ -27,7 +27,7 @@ void local_nolock_rewind_queue(Context * ctx);
 
 void
 init_queue(Queue * q, int elementsize, int duplicates,
-	   int (*compare) (void *e1, void *e2), int priority_is_tag_only) {
+           int (*compare) (void *e1, void *e2), int priority_is_tag_only) {
 
   q->queuelength = 0;
   q->elementsize = elementsize;
@@ -95,10 +95,10 @@ int nolock_element_in_queue(Queue * q, void *element) {
     nolock_rewind_queue(q);
     while (!end_of_queue(q) && !found) {
       if(q->compare(element, q->current->info) == 0) {
-	found = 1;
+        found = 1;
       }
       else {
-	nolock_next_element(q);
+        nolock_next_element(q);
       }
     }
   }
@@ -139,15 +139,11 @@ void nolock_add_to_queue(Queue * q, void *element, int priority) {
       new_element->next = 0;
       q->queue = new_element;
     }
-    else if(q->priority_is_tag_only || (q->queue)->priority >= priority) {
-      new_element->next = q->queue;
-      q->queue = new_element;
-    }
     else {
       ptr = q->queue;
-      while (ptr != 0 && priority >= ptr->priority) {
-	prev = ptr;
-	ptr = ptr->next;
+      while (ptr != 0 && priority == ptr->priority) {
+        prev = ptr;
+        ptr = ptr->next;
       }
 
       new_element->next = prev->next;
@@ -333,7 +329,7 @@ void delete_current(Queue * q) {
       q->queue = q->queue->next;
       q->current = q->queue;
     }
-    else {			// internal deletion 
+    else {			// internal deletion
       q->previous->next = q->current->next;
       q->current = q->previous->next;
     }
@@ -378,7 +374,7 @@ void nolock_next_element(Queue * q) {
   }
   else if(q->current == 0) {
     fprintf(stderr,
-	    "Advance past end in NULL pointer in function next_element()\n");
+            "Advance past end in NULL pointer in function next_element()\n");
     exit(1);
   }
   else
@@ -427,11 +423,11 @@ void copy_queue(Queue * q1, Queue * q2) {
   pthread_mutex_lock(&(q1->lock));
   pthread_mutex_lock(&(q2->lock));
 
-  // free elements in q1 before copy 
+  // free elements in q1 before copy
 
   nolock_destroy_queue(q1);
 
-  // now make q1 a clone of q2 
+  // now make q1 a clone of q2
 
   q1->queuelength = 0;
   q1->elementsize = q2->elementsize;
@@ -506,7 +502,7 @@ int equal_queues(Queue * q1, Queue * q2) {
     temp2 = q2->queue;
     while (same && temp1 != 0) {
       same = (!memcmp(temp1->info, temp2->info, q1->elementsize) &&
-	      temp1->priority == temp2->priority);
+              temp1->priority == temp2->priority);
       temp1 = temp1->next;
       temp2 = temp2->next;
     }
@@ -720,7 +716,7 @@ void local_nolock_next_element(Context * ctx) {
   }
   else if(ctx->current == 0) {
     fprintf(stderr,
-	    "Advance past end in NULL pointer in function next_element()\n");
+            "Advance past end in NULL pointer in function next_element()\n");
     exit(1);
   }
   else
